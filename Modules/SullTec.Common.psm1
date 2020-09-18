@@ -1,3 +1,4 @@
+using module .\Classes\Class.Semver.ps1
 # Import-Module and the '#requires' statement only import the module functions, aliases, and variables,
 # as defined by the module. Classes are not imported. The using module statement imports the classes
 # defined in the module. If the module isn't loaded in the current session, the using statement fails.
