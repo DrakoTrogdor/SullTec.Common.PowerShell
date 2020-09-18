@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>Classes</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="PowerShellStandard.Library" Version="5.1.0-preview-06">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+    <Content Include="SymVer.cs" />
+    <Content Include="GetSemVerCmdlet.cs" />
+    <Content Include="SemVer.cs" />
+  </ItemGroup>
+</Project>
