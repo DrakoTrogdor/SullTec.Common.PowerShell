@@ -83,11 +83,11 @@
         <maml:Introduction>
           <maml:paragraph>C:\PS</maml:paragraph>
         </maml:Introduction>
-        <dev:code>PS> Get-SymVer -Value '0.0.1-alpha.1+20200918.c3f4e5e'
-  Minor         : 0
-  Patch         : 1
-  PreRelease    : alpha.1
-  BuildMetadata : 20200918.c3f4e5e</dev:code>
+        <dev:code>Get-SymVer -Value '0.0.1-alpha.1+20200918.c3f4e5e'
+Minor         : 0
+Patch         : 1
+PreRelease    : alpha.1
+BuildMetadata : 20200918.c3f4e5e</dev:code>
         <dev:remarks>
           <maml:para>The output from the requested string will be an object containing version: 0.0.1, prerelease: alpha.1, with the build metadata 20200918.c3f4e5e</maml:para>
         </dev:remarks>

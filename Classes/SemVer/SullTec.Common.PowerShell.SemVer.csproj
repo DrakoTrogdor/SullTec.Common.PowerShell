@@ -10,6 +10,10 @@
     </PackageReference>
     <Content Include="GetSemVerCmdlet.cs" />
     <Content Include="SemVer.cs" />
-    <Content Include="SullTec.Common.PowerShell.SemVer.dll-Help.xml" />
   </ItemGroup>
+  <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
+    <Copy SourceFiles="$(OutDir)/SullTec.Common.PowerShell.SemVer.dll" DestinationFolder="../../Assemblies/" />
+    <Copy SourceFiles="SullTec.Common.PowerShell.SemVer.dll-Help.xml" DestinationFolder="$(OutDir)" />
+    <Copy SourceFiles="SullTec.Common.PowerShell.SemVer.dll-Help.xml" DestinationFolder="../../Assemblies/" />
+  </Target>
 </Project>
