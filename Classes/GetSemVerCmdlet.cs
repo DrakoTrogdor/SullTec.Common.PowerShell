@@ -1,4 +1,7 @@
-﻿using System.Management.Automation;
+﻿using System;
+using System.Management;
+using System.Management.Automation;
+using System.Management.Automation.Runspaces;
 
 namespace SullTec.Common.PowerShell
 {

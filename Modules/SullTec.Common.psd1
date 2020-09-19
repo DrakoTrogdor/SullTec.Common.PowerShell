@@ -66,13 +66,15 @@
     # FormatsToProcess = @()
 
     # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
-    NestedModules = @("..\Assemblies\SullTec.Common.PowerShell.SemVer.dll")
+    NestedModules = @(
+        "..\Assemblies\SullTec.Common.PowerShell.SemVer.dll"
+    )
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-    FunctionsToExport = @()
+    FunctionsToExport = '*' #@()# must use '*' in order to export from root module even though it is exporting the functions
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
-    CmdletsToExport   = @('Get-SemVer')
+    CmdletsToExport   = '*' #@()# must use '*' in order to export from nested modules even though they are exporting the cmdlets
 
     # Variables to export from this module
     VariablesToExport = '*'
