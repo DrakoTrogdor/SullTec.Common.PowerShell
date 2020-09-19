@@ -1,10 +1,10 @@
 #requires -Version 2
 # Get the function definition files.
 
-Add-Type -AssemblyName '.\Assemblies\SullTec.Common.PowerShell.SemVer.dll'
+Add-Type -AssemblyName (Join-Path -Path $PSScriptRoot -ChildPath 'Assemblies' -AdditionalChildPath  'SullTec.Common.PowerShell.SemVer.dll' -Resolve)
 Export-ModuleMember -Cmdlet 'Get-SemVer'
 
-$functionFiles = @( Get-ChildItem -Path $PSScriptRoot\..\Functions\*.ps1 -Recurse -ErrorAction SilentlyContinue )
+$functionFiles = @(Get-ChildItem -Path (Join-Path -Path $PSScriptRoot -ChildPath 'Functions' -AdditionalChildPath '*.ps1') -Recurse -ErrorAction SilentlyContinue )
 
 # Dot source the files
 Foreach ($importFile in $functionFiles) {

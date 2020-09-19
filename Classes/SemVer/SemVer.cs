@@ -126,8 +126,11 @@ namespace SullTec.Common.PowerShell
             }
             return returnSemVer.ToArray();
         }
-        public bool Compare (SemVer Value) {
+        public bool CompareTo (SemVer Value) {
             return SemVer.Compare(this, Value);
+        }
+        public bool CompareTo (string Value) {
+            return SemVer.Compare(this,SemVer.ConvertTo(Value)[0]);
         }
         public static bool Compare (SemVer Value1, SemVer Value2) {
             if (Value1.Major > Value2.Major) { return true; }
