@@ -12,13 +12,13 @@
     RootModule        = 'SullTec.Common.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '1.0.0.0'
+    ModuleVersion     = '0.0.1'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
 
     # ID used to uniquely identify this module
-    GUID              = 'GUID'
+    GUID              = '5510bb8b-4f53-45a5-9c71-f34d03c5ab47'
 
     # Author of this module
     Author            = 'Casey J Sullivan'
@@ -66,13 +66,13 @@
     # FormatsToProcess = @()
 
     # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
-    # NestedModules = @()
+    NestedModules = @("..\Assemblies\SullTec.Common.PowerShell.SemVer.dll")
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
     FunctionsToExport = @()
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
-    CmdletsToExport   = @()
+    CmdletsToExport   = @('Get-SemVer')
 
     # Variables to export from this module
     VariablesToExport = '*'
@@ -101,7 +101,7 @@
             LicenseUri = 'https://github.com/DrakoTrogdor/SullTec.Common.Powershel/blob/master/LICENSE.md'
 
             # A URL to the main website for this project.
-            ProjectUri = 'https://github.com/DrakoTrogdor/SullTec.Common.Powershel'
+            ProjectUri = 'https://github.com/DrakoTrogdor/SullTec.Common.PowerShell'
 
             # A URL to an icon representing this module.a
             # IconUri = ''

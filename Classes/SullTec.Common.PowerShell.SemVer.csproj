@@ -10,5 +10,6 @@
     </PackageReference>
     <Content Include="GetSemVerCmdlet.cs" />
     <Content Include="SemVer.cs" />
+    <Content Include="SullTec.Common.PowerShell.SemVer.dll-Help.xml" />
   </ItemGroup>
 </Project>

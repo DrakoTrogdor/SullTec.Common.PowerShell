@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<helpItems xmlns="http://msh" schema="maml">
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details><!--SYNOPSIS-->
+      <command:name>Get-SemVer</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>SemVer</command:noun>
+      <maml:description>
+        <maml:para>Handles parsing and comparing Semantec Versioning (SemVar).</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description><!--DESCRIPTION-->
+      <maml:para>Returns a Semantec Versioning (SemVer) object from a string which can be used to compare different versions of objects (binaries, applications, cars, people).</maml:para>
+    </maml:description>
+    <command:syntax><!--SYNTAX-->
+      <command:syntaxItem>
+        <maml:name>Get-SemVer</maml:name>
+        <command:parameter required="true" globbing="true" pipelineInput="true (ByPropertyName)" position="1" aliases="none">
+          <maml:name>Value</maml:name>
+          <maml:description>
+            <maml:para>A string in the form of "[Major].[Minor].[Patch]-[PreRelease]+[BuildMetaData]" based on the specifications from https://semver.org.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true">System.String</command:parameterValue>
+          <dev:type>
+            <maml:name>System.String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters><!--PARAMETERS-->
+        <command:parameter required="true" globbing="true" pipelineInput="true (ByPropertyName)" position="1" aliases="none">
+          <maml:name>Value</maml:name>
+          <maml:description>
+            <maml:para>A string in the form of "[Major].[Minor].[Patch]-[PreRelease]+[BuildMetaData]" based on the specifications from https://semver.org.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true">System.String</command:parameterValue>
+          <dev:type>
+            <maml:name>System.String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+    </command:parameters>
+    <command:inputTypes><!--INPUT TYPES-->
+      <command:inputType>
+        <dev:type>
+          <maml:name>System.String</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe strings to Get-SemVer</maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues><!--RETURN TYPES-->
+      <command:returnValue>
+        <dev:type>
+          <maml:name>SullTec.Common.PowerShell.SemVer</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>This cmdlet will output an array of SemVer objects.</maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet><!--NOTES-->
+      <maml:alert>
+        <maml:para>Copyright Notice</maml:para>
+        <maml:para>Name:       [Verb-NounFunction]</maml:para>
+        <maml:para>Author:     [First Name] [Last Name]</maml:para>
+        <maml:para>Version:    [Major].[Minor].[Patch]-[Prerelease(alpha|beta|pre|rc)]+[BuildMetaData(yyyymmdd|commit|buildnumber)]</maml:para>
+        <maml:para>Date:       [Year]-[Month]-[Day]</maml:para>
+        <maml:para>Version History:</maml:para>
+        <maml:para>    [Major].[Minor].[Patch]-[PreRelease]+[BuildMetaData]    -    [Year]-[Month]-[Day]    -    [Description]</maml:para>
+        <maml:para>TODO:</maml:para>
+        <maml:para>    [List of TODOs]</maml:para>
+        <maml:para>For more information on Semmantec Versioning please visit https://semver.org.</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples><!--EXAMPLES-->
+      <command:example>
+        <maml:title>- Example 1: Request a SemVer object for the string '0.0.1-alpha.1+20200918.c3f4e5e' -</maml:title>
+        <maml:Introduction>
+          <maml:paragraph>C:\PS</maml:paragraph>
+        </maml:Introduction>
+        <dev:code>Get-SymVer -Value '0.0.1-alpha.1+20200918.c3f4e5e'
+Minor         : 0
+Patch         : 1
+PreRelease    : alpha.1
+BuildMetadata : 20200918.c3f4e5e</dev:code>
+        <dev:remarks>
+          <maml:para>The output from the requested string will be an object containing version: 0.0.1, prerelease: alpha.1, with the build metadata 20200918.c3f4e5e</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks><!--LINKS-->
+      <maml:navigationLink>
+        <maml:linkText>GitHub Repository:</maml:linkText>
+        <maml:uri>https://github.com/DrakoTrogdor/SullTec.Common.PowerShell</maml:uri>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+</helpItems>
