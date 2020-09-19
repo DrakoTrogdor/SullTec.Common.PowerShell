@@ -1,2 +1,2 @@
-Classes/bin
-Classes/obj
+Classes/**/bin
+Classes/**/obj

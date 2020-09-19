@@ -50,7 +50,7 @@ namespace SullTec.Common.PowerShell
             }
         }
         //private static string VersionMatch { get; }
-        private static Regex VersionMatch = new Regex(@"^([vV]([eE][rR])?\.?)?(?<major>0|[1-9]\d*)(\.(?<minor>0|[1-9]\d*)(\.(?<patch>0|[1-9]\d*))?)?(?:-(?<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?");
+        private static Regex VersionMatch = new Regex(@"^([vV]([eE][rR])?\.?)?(?<major>0|[1-9]\d*)(\.(?<minor>0|[1-9]\d*)(\.(?<patch>0|[1-9]\d*))?)?(?:-(?<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$");
         private void Init (
             int Major,
             int Minor,
@@ -64,18 +64,9 @@ namespace SullTec.Common.PowerShell
             this.PreRelease    = PreRelease;
             this.BuildMetadata = BuildMetadata;
         }
-        public SemVer (){ this.Init(0, 0, 0, "", ""); }
-        public SemVer (
-            int Major,
-            int Minor,
-            int Patch,
-            string PreRelease,
-            string BuildMetadata
-        ) {
-            this.Init (Major, Minor, Patch, PreRelease, BuildMetadata);
-        }
-        public SemVer(string Value){
-            MatchCollection currentMatches = SemVer.VersionMatch.Matches(Value);
+        private void Init (string Value) {
+            Value = Regex.Replace(Value,"(?ms)[\x00-\x1f\x7f]","").Trim();
+            MatchCollection currentMatches = SemVer.VersionMatch.Matches(Value.Trim());
             foreach (Match currentMatch in currentMatches) {
                 if (currentMatch.Success) {
                     this.Init(
@@ -88,7 +79,22 @@ namespace SullTec.Common.PowerShell
                     break;
                 }
             }
+
         }
+        public SemVer () { this.Init(0, 0, 0, "", ""); }
+        public SemVer (
+            int Major,
+            int Minor,
+            int Patch,
+            string PreRelease,
+            string BuildMetadata
+        ) {
+            this.Init (Major, Minor, Patch, PreRelease, BuildMetadata);
+        }
+        public SemVer(string Value)   { this.Init(Value); }
+        public SemVer(string[] Value) { this.Init(String.Join("",Value)); }
+        public SemVer(object[] Value) { this.Init(String.Join("",Value)); }
+
         public bool HasPreRelease (){ return !string.IsNullOrWhiteSpace(this.PreRelease); }
         public bool HasBuildMetadata () { return !string.IsNullOrWhiteSpace(this.BuildMetadata); }
         public override string ToString(){
@@ -105,6 +111,7 @@ namespace SullTec.Common.PowerShell
         }
         public static SemVer[] ConvertTo (string Value) {
             List<SemVer> returnSemVer = new List<SemVer>();
+            Value = Regex.Replace(Value,"(?ms)[\x00-\x1f\x7f]","").Trim();
             MatchCollection currentMatches = SemVer.VersionMatch.Matches(Value);
             foreach (Match currentMatch in currentMatches) {
                 if (currentMatch.Success) {

@@ -1,7 +1,7 @@
 #requires -Version 2
 # Get the function definition files.
 
-Add-Type -AssemblyName '.\SullTec.Manage\SullTec.Common.PowerShell\Assemblies\SullTec.Common.PowerShell.SemVer.dll'
+Add-Type -AssemblyName '.\Assemblies\SullTec.Common.PowerShell.SemVer.dll'
 Export-ModuleMember -Cmdlet 'Get-SemVer'
 
 $functionFiles = @( Get-ChildItem -Path $PSScriptRoot\..\Functions\*.ps1 -Recurse -ErrorAction SilentlyContinue )

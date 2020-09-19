@@ -1,4 +1,18 @@
-function ConvertTo-AESSecureString {
+function Get-AesKey {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true, ValueFromPipeline = $false)]
+        [string]$KeyString
+    )
+    begin {
+        $shaHasher = [System.Security.Cryptography.SHA256Managed]::new()
+    }
+    process {
+        [byte[]]$AESKeyStringBytes  = [System.Text.Encoding]::UTF8.GetBytes($KeyString)
+        Write-Output $shaHasher.ComputeHash($AESKeyStringBytes)
+    }
+}
+function ConvertTo-AesString {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true, ParameterSetName = 'From String', ValueFromPipeline = $false)]
@@ -25,11 +39,12 @@ function ConvertTo-AESSecureString {
     }
     process {
         [System.Security.SecureString]$secureString = ConvertTo-SecureString -String $Value -AsPlainText -Force
-        [string]$aesSecureString = ConvertFrom-SecureString -SecureString $secureString -Key $AESKey
-        return $aesSecureString
+        [string]$aesString = ConvertFrom-SecureString -SecureString $secureString -Key $AESKey
+        return $aesString
     }
 }
-function ConvertFrom-AESSecureString {
+function ConvertFrom-AesString {
+    [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true, ParameterSetName = 'From String', ValueFromPipeline = $false)]
         [string]$KeyString,
@@ -58,6 +73,66 @@ function ConvertFrom-AESSecureString {
         $BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureString)
         $plainTextString = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
         return $plainTextString
+    }
+}
+function Convert-AesStringToSecureString {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true, ParameterSetName = 'From String', ValueFromPipeline = $false)]
+        [string]$KeyString,
+
+        [Parameter(Mandatory = $true, ParameterSetName = 'From Bytes', ValueFromPipeline = $false)]
+        [byte[]]$KeyBytes,
+
+        [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
+        [string]$Value
+    )
+    begin {
+        [byte[]]$AESKey = switch ($PSCmdlet.ParameterSetName) {
+            'From String' {
+                [byte[]]$AESKeyStringBytes  = [System.Text.Encoding]::UTF8.GetBytes($KeyString)
+                $shaHasher = [System.Security.Cryptography.SHA256Managed]::new()
+                Write-Output $shaHasher.ComputeHash($AESKeyStringBytes)
+            }
+            'From Bytes'  {
+                Write-Output $KeyBytes
+            }
+            default       { New-Object Byte[] 32 }
+        }
+    }
+    process {
+        [System.Security.SecureString]$secureString = ConvertTo-SecureString -String $Value -Key $AESKey
+        return $secureString
+    }
+}
+function Convert-SecureStringToAesString {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true, ParameterSetName = 'From String', ValueFromPipeline = $false)]
+        [string]$KeyString,
+
+        [Parameter(Mandatory = $true, ParameterSetName = 'From Bytes', ValueFromPipeline = $false)]
+        [byte[]]$KeyBytes,
+
+        [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
+        [System.Security.SecureString]$Value
+    )
+    begin {
+        [byte[]]$AESKey = switch ($PSCmdlet.ParameterSetName) {
+            'From String' {
+                [byte[]]$AESKeyStringBytes  = [System.Text.Encoding]::UTF8.GetBytes($KeyString)
+                $shaHasher = [System.Security.Cryptography.SHA256Managed]::new()
+                Write-Output $shaHasher.ComputeHash($AESKeyStringBytes)
+            }
+            'From Bytes'  {
+                Write-Output $KeyBytes
+            }
+            default       { New-Object Byte[] 32 }
+        }
+    }
+    process {
+        [string]$aesString = ConvertFrom-SecureString -SecureString $Value -Key $AESKey
+        return $aesString
     }
 }
 function Compare-AESSecureString {

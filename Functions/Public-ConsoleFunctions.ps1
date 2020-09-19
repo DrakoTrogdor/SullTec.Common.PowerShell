@@ -491,22 +491,22 @@ function PressAnyKey {
     Write-Console "Press any key to continue ..."
     [bool]$anyKey = $false
     do {
-        [System.Management.Automation.Host.KeyInfo]$x = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown,AllowCtrlC")
-        switch ($x.VirtualKeyCode) {
+        [System.Management.Automation.Host.KeyInfo]$rawKey = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown,AllowCtrlC")
+        switch ($rawKey.VirtualKeyCode) {
             {$_ -in 16,17,18} { $anyKey = $false; break; } # Shift, Control, Alt
             {$_ -in 45, 46} {
                 # Shift Insert (45)  or Delete (46) - Paste or Cut
-                if ($x.ControlKeyState -eq [System.Management.Automation.Host.ControlKeyStates]::ShiftPressed) { $anyKey = $false}
+                if ($rawKey.ControlKeyState -eq [System.Management.Automation.Host.ControlKeyStates]::ShiftPressed) { $anyKey = $false}
                 # CTRL Insert (45) - Copy
-                elseif ($x.ControlKeyState -eq [System.Management.Automation.Host.ControlKeyStates]::LeftCtrlPressed -or $x.ControlKeyState -eq [System.Management.Automation.Host.ControlKeyStates]::RightCtrlPressed) { $anyKey = $false}
+                elseif ($rawKey.ControlKeyState -eq [System.Management.Automation.Host.ControlKeyStates]::LeftCtrlPressed -or $rawKey.ControlKeyState -eq [System.Management.Automation.Host.ControlKeyStates]::RightCtrlPressed) { $anyKey = $false}
                 else { $anyKey = $true}
                 break
             }
             {$_ -in 65,67,86,88} {
                 # CTRL A (65), C (67), V (86), or X(88) - Select all, Copy, Paste, or Cut
-                if ($x.ControlKeyState -eq [System.Management.Automation.Host.ControlKeyStates]::LeftCtrlPressed -or $x.ControlKeyState -eq [System.Management.Automation.Host.ControlKeyStates]::RightCtrlPressed) { $anyKey = $false}
+                if ($rawKey.ControlKeyState -eq [System.Management.Automation.Host.ControlKeyStates]::LeftCtrlPressed -or $rawKey.ControlKeyState -eq [System.Management.Automation.Host.ControlKeyStates]::RightCtrlPressed) { $anyKey = $false}
                 # CTRL A (65), C (67), V (86), or X(88) - Select all, Copy, Paste, or Cut
-                elseif ($x.ControlKeyState -eq [System.Management.Automation.Host.ControlKeyStates]::LeftAltPressed -or $x.ControlKeyState -eq [System.Management.Automation.Host.ControlKeyStates]::RightAltPressed) { $anyKey = $false}
+                elseif ($rawKey.ControlKeyState -eq [System.Management.Automation.Host.ControlKeyStates]::LeftAltPressed -or $rawKey.ControlKeyState -eq [System.Management.Automation.Host.ControlKeyStates]::RightAltPressed) { $anyKey = $false}
                 else { $anyKey = $true}
                 break
             }
