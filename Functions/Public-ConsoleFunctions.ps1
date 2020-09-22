@@ -424,7 +424,6 @@ function Write-DebugInfo {
 		}
 	}
 }
-
 function PressAnyKey {
     <#
     .SYNOPSIS
@@ -974,9 +973,6 @@ function Invoke-CommandLine ($command, $workingDirectory, $timeout) {
         ExitCode = $exitCode
     }
 }
-
-
-
 Function Write-DataToFile {
 	Param (
 		[Parameter(Mandatory=$false)][string]$FilePath = $PSScriptRoot,
