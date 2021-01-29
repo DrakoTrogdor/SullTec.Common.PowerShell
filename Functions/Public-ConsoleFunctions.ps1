@@ -488,7 +488,7 @@ function PressAnyKey {
     .FUNCTIONALITY
         [Verb-PublicFunctionName] The intended use of the function. This content appears when the Get-Help command includes the Functionality parameter of Get-Help.
     #>
-    Write-Console "Press any key to continue ..."
+    Write-Console "Press any key to continue ..." -Title "Action"
     [bool]$anyKey = $false
     do {
         [System.Management.Automation.Host.KeyInfo]$rawKey = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown,AllowCtrlC")
@@ -872,7 +872,8 @@ function Show-Menu {
     #>
 	param (
 		[Parameter(Mandatory=$true)][System.Collections.Hashtable]$HashTable,
-		[Parameter(Mandatory=$false)][bool]$ShowBack = $false
+        [Parameter(Mandatory=$false)][bool]$ShowBack = $false,
+        [Parameter(Mandatory=$false)][bool]$ShowPause = $true
 	)
 	[bool]$exitLoop = $false
 	do {
@@ -881,10 +882,10 @@ function Show-Menu {
 			$exitLoop = $true
 		} else {
 			if ($choice.GetType().FullName -eq 'System.Collections.HashTable') {
-				Show-Menu -HashTable $choice -ShowBack $true
+				Show-Menu -HashTable $choice -ShowBack $true -ShowPause $ShowPause
 			} else {
 				&($choice)
-				if ($script:ShowPause) { PressAnyKey }
+				if ($ShowPause) { PressAnyKey }
 			}
 		}
 	} while (-not $exitLoop)
