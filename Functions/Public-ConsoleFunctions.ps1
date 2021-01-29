@@ -424,7 +424,6 @@ function Write-DebugInfo {
 		}
 	}
 }
-
 function PressAnyKey {
     <#
     .SYNOPSIS
@@ -659,6 +658,7 @@ function Show-Choices {
 		[Parameter(Mandatory=$false)][bool]$ShowBack = $false,
         [Parameter(Mandatory=$false)][bool]$ShowExit = $true,
         [Parameter(Mandatory=$false)][string]$ExitPath = $null,
+        [Parameter(Mandatory=$false)][ScriptBlock]$ExitScript = $null,
         [Parameter()][switch]$NoSort
 	)
 	if ([string]::IsNullOrWhiteSpace($ObjectKey)) { $ObjectKey = "Name"}
@@ -743,6 +743,7 @@ function Show-Choices {
 					break
 				}
 				'[q|quit|e|exit]' {
+                    if ($null -ne $ExitScript) { . $ExitScript }
 					ExitScript -Path $ExitPath
 					break
 				}
@@ -975,9 +976,6 @@ function Invoke-CommandLine ($command, $workingDirectory, $timeout) {
         ExitCode = $exitCode
     }
 }
-
-
-
 Function Write-DataToFile {
 	Param (
 		[Parameter(Mandatory=$false)][string]$FilePath = $PSScriptRoot,
