@@ -5,7 +5,7 @@
     <AssemblyName>SullTec.Common.PowerShell.SemVer</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="PowerShellStandard.Library" Version="7.0.0-preview.1">
+    <PackageReference Include="Microsoft.PowerShell.SDK" Version="7.0.0">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
     <Content Include="GetSemVerCmdlet.cs" />
@@ -15,5 +15,9 @@
     <Copy SourceFiles="$(OutDir)/SullTec.Common.PowerShell.SemVer.dll" DestinationFolder="../../Assemblies/" />
     <Copy SourceFiles="SullTec.Common.PowerShell.SemVer.dll-Help.xml" DestinationFolder="$(OutDir)" />
     <Copy SourceFiles="SullTec.Common.PowerShell.SemVer.dll-Help.xml" DestinationFolder="../../Assemblies/" />
+  </Target>
+  <Target Name="CustomFullClean" AfterTargets="Clean">
+    <RemoveDir Directories="$(BaseOutputPath)" />
+    <RemoveDir Directories="$(BaseIntermediateOutputPath)" /> 
   </Target>
 </Project>

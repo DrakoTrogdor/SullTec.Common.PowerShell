@@ -1,1 +1,1 @@
-Import-Module $PSScriptRoot\Modules\SullTec.Common.psm1 -Force
+Import-Module $PSScriptRoot\SullTec.Common.psd1 -Force

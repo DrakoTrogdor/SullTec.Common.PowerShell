@@ -11,4 +11,8 @@
     </Reference>
     <Content Include="TestSemVer.cs" />
   </ItemGroup>
+  <Target Name="CustomFullClean" AfterTargets="Clean">
+    <RemoveDir Directories="$(BaseOutputPath)" />
+    <RemoveDir Directories="$(BaseIntermediateOutputPath)" /> 
+  </Target>
 </Project>
