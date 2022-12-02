@@ -1038,10 +1038,14 @@ function Get-ClickableLink {
         Date:       2022-12-02
         Version History:
             1.0.0     -   2022-12-02  -   Initial Release
+        Attribution:
+            Thank you Dani Llewllyn for the code. https://diddledani.com/powershell-clickable-hyperlinks/
         TODO:
             [List of TODOs]
     .LINK
         https://sulltec.com
+    .LINK
+        https://diddledani.com/powershell-clickable-hyperlinks/
     .LINK
         about_Functions
     .LINK
@@ -1073,21 +1077,47 @@ function Get-ClickableLink {
     #>
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory=$true)][string]$URL,
-        [Parameter(Mandatory=$false)][string]$Caption
+        [Parameter(ValueFromPipeline = $true, Position = 0)]
+        [ValidateNotNullOrEmpty()]
+        [string] $URL,
+
+        [Parameter(Mandatory=$false, Position = 1)]
+        [string]$Caption
     )
+    begin {
+        $pathRegEx='\A(?:(?<drive>(?>[a-z]:|[\\/]{2}[a-z0-9%._~-]{1,63}[\\/][a-z0-9$%._~-]{1,80})[\\/])(?<folder>(?>[^\\/:*?"<>|\x00-\x1F]{0,254}[^.\\/:*?"<>|\x00-\x1F][\\/])*)(?<file>(?>[^\\/:*?"<>|\x00-\x1F]{0,254}[^.\\/:*?"<>|\x00-\x1F])?)|(?<relative>(?>\.{0,2}[\\/]))(?<folder>(?>[^\\/:*?"<>|\x00-\x1F]{0,254}[^.\\/:*?"<>|\x00-\x1F][\\/])*)(?<file>(?>[^\\/:*?"<>|\x00-\x1F]{0,254}[^.\\/:*?"<>|\x00-\x1F])?)|(?<relativefolder>(?>[^\\/:*?"<>|\x00-\x1F]{0,254}[^.\\/:*?"<>|\x00-\x1F][\\/])+)(?<file>(?>[^\\/:*?"<>|\x00-\x1F]{0,254}[^.\\/:*?"<>|\x00-\x1F])?)|(?<relativefile>(?>[^\\/:*?"<>|\x00-\x1F]{0,254}[^.\\/:*?"<>|\x00-\x1F])))\z'
+    }
     process {
-        if ([string]::IsNullOrWhiteSpace($URL)) { return '' }
-        $pathRegEx='\A(?:(?<drive>(?>[a-z]:|\\\\[a-z0-9 %._~-]{1,63}\\[a-z0-9 $%._~-]{1,80})\\)(?<folder>(?>[^\\/:*?"<>|\x00-\x1F]{0,254}[^.\\/:*?"<>|\x00-\x1F]\\)*)(?<file>(?>[^\\/:*?"<>|\x00-\x1F]{0,254}[^.\\/:*?"<>|\x00-\x1F])?)|(?<relative>(?>\.{0,2}\\))(?<folder>(?>[^\\/:*?"<>|\x00-\x1F]{0,254}[^.\\/:*?"<>|\x00-\x1F]\\)*)(?<file>(?>[^\\/:*?"<>|\x00-\x1F]{0,254}[^.\\/:*?"<>|\x00-\x1F])?)|(?<relativefolder>(?>[^\\/:*?"<>|\x00-\x1F]{0,254}[^.\\/:*?"<>|\x00-\x1F]\\)+)(?<file>(?>[^\\/:*?"<>|\x00-\x1F]{0,254}[^.\\/:*?"<>|\x00-\x1F])?)|(?<relativefile>(?>[^\\/:*?"<>|\x00-\x1F]{0,254}[^.\\/:*?"<>|\x00-\x1F])))\z'
-        if ($URL -match $pathRegEx) {
-            $URL = "file://$URL"
+        [string]$return = ''
+        $nullCaption = [string]::IsNullOrWhiteSpace($Caption)
+        if (($PSVersionTable.PSVersion.Major -lt 6 -or $IsWindows) -and -not $Env:WT_SESSION) {
+            # Fallback for Windows users not inside Windows Terminal
+            $return = $nullCaption ? "$Uri" : "$Caption ($Uri)"
         }
-        if ([string]::IsNullOrWhiteSpace($Caption)) {
-            $Caption = $URL
+        else {
+            if ($nullCaption) { $Caption = "$URL" }
+            if ($URL -match $pathRegEx)         {
+                if (-not [string]::IsNullOrWhiteSpace($Matches.relative)      ) {
+                    $tempURL = Resolve-Path -Path $URL -ErrorAction SilentlyContinue -ErrorVariable _rpError
+                    if ([string]::IsNullOrWhiteSpace($tempURL)) {
+                        $tempURL = $_rpError[0].TargetObject
+                    }
+                    $URL = "file://$tempURL"
+                }
+                elseif (-not [string]::IsNullOrWhiteSpace($Matches.relativefile)  ) {
+                    $URL = "file://$( Join-Path -Path (Get-Location).Path -ChildPath $URL)"
+                }
+                elseif (-not [string]::IsNullOrWhiteSpace($Matches.relativefolder)) {
+                    $URL = "file://$( Join-Path -Path (Get-Location).Path -ChildPath $URL)"
+                }
+                else {
+                    $URL = "file://$URL"
+                }
+            }
+            if ($Caption.StartsWith("file://")) { $Caption = $Caption -replace 'file://', '' }
+            $return = "`e]8;;$URL`e\$Caption`e]8;;`e\"
         }
-        if ($Caption.StartsWith("file://")) {
-            $Caption = $Caption -replace 'file://', ''
-        }
-        return "`e]8;;$URL`e\$Caption`e]8;;`e\"
+        if ($nullCaption) { $Caption = $null }
+        return $return
     }
 }
