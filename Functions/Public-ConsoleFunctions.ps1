@@ -1011,3 +1011,83 @@ Function Write-DataToFile {
 		}
 	}
 }
+function Get-ClickableLink {
+    <#
+    .SYNOPSIS
+        Returns a string with a Windows Terminal clickable link.
+    .DESCRIPTION
+        Returns a string with a Windows Terminal clickable link. This is done by encapsulating the URL and description with the following escape codes:
+            `e]8;;$URL`e\$Caption`e]8;;`e\
+    .PARAMETER URL
+        The URL that the clickable link will link to. The format should be a string with the following:
+            <protocol>://<url>
+    .PARAMETER Caption
+        The caption to display instead of the URL. If this is ommited the URL will be displayed
+    .EXAMPLE
+        PS> Get-ClickableLink -URL 'file://C:\Windows\System32\' -Caption 'System32'
+        Opens the Windows System32 folder using the appropriate system application (Explorer.exe)
+    .INPUTS
+        Inputs URL and Caption should be strings.
+    .OUTPUTS
+        Returns a formatted string for use in other methods.
+    .NOTES
+        Copyright Notice
+        Name:       Get-ClickableLink
+        Author:     Casey J. Sullivan
+        Version:    1.0.0     -      Release
+        Date:       2022-12-02
+        Version History:
+            1.0.0     -   2022-12-02  -   Initial Release
+        TODO:
+            [List of TODOs]
+    .LINK
+        https://sulltec.com
+    .LINK
+        about_Functions
+    .LINK
+        about_Functions_Advanced
+    .LINK
+        about_Functions_Advanced_Methods
+    .LINK
+        about_Functions_Advanced_Parameters
+    .LINK
+        about_Functions_CmdletBinding_Attribute
+    .LINK
+        about_Functions_OutputTypeAttribute
+    .LINK
+        about_Automatic_Variables
+    .LINK
+        about_Comment_Based_Help
+    .LINK
+        about_Parameters
+    .LINK
+        about_Profiles
+    .LINK
+        about_Scopes
+    .LINK
+        about_Script_Blocks
+    .LINK
+        about_Function_provider
+    .LINK
+        Get-Verb
+    #>
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory=$true)][string]$URL,
+        [Parameter(Mandatory=$false)][string]$Caption
+    )
+    process {
+        if ([string]::IsNullOrWhiteSpace($URL)) { return '' }
+        $pathRegEx='\A(?:(?<drive>(?>[a-z]:|\\\\[a-z0-9 %._~-]{1,63}\\[a-z0-9 $%._~-]{1,80})\\)(?<folder>(?>[^\\/:*?"<>|\x00-\x1F]{0,254}[^.\\/:*?"<>|\x00-\x1F]\\)*)(?<file>(?>[^\\/:*?"<>|\x00-\x1F]{0,254}[^.\\/:*?"<>|\x00-\x1F])?)|(?<relative>(?>\.{0,2}\\))(?<folder>(?>[^\\/:*?"<>|\x00-\x1F]{0,254}[^.\\/:*?"<>|\x00-\x1F]\\)*)(?<file>(?>[^\\/:*?"<>|\x00-\x1F]{0,254}[^.\\/:*?"<>|\x00-\x1F])?)|(?<relativefolder>(?>[^\\/:*?"<>|\x00-\x1F]{0,254}[^.\\/:*?"<>|\x00-\x1F]\\)+)(?<file>(?>[^\\/:*?"<>|\x00-\x1F]{0,254}[^.\\/:*?"<>|\x00-\x1F])?)|(?<relativefile>(?>[^\\/:*?"<>|\x00-\x1F]{0,254}[^.\\/:*?"<>|\x00-\x1F])))\z'
+        if ($URL -match $pathRegEx) {
+            $URL = "file://$URL"
+        }
+        if ([string]::IsNullOrWhiteSpace($Caption)) {
+            $Caption = $URL
+        }
+        if ($Caption.StartsWith("file://")) {
+            $Caption = $Caption -replace 'file://', ''
+        }
+        return "`e]8;;$URL`e\$Caption`e]8;;`e\"
+    }
+}
