@@ -72,9 +72,34 @@
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
     FunctionsToExport = '*' #@()# must use '*' in order to export from root module even though it is exporting the functions
+    <# FunctionsToExport = @(
+        'Compare-AESSecureString',
+        'Convert-AesStringToSecureString',
+        'Convert-SecureStringToAesString',
+        'ConvertFrom-AesString',
+        'ConvertFrom-UnixTime',
+        'ConvertTo-AesString',
+        'ExitScript',
+        'Format-DateDiff',
+        'Get-AesKey',
+        'Get-ClickableLink',
+        'Get-SemVer',
+        'InitializeEnvironment',
+        'Invoke-CommandLine',
+        'PressAnyKey',
+        'Show-Choices',
+        'Show-Menu',
+        'Write-Color',
+        'Write-Console',
+        'Write-DataToFile',
+        'Write-DebugInfo',
+        'Write-Log',
+        'YesOrNo'
+    ) #>
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
     CmdletsToExport   = '*' #@()# must use '*' in order to export from nested modules even though they are exporting the cmdlets
+    # CmdletsToExport   = @('Get-SemVer')
 
     # Variables to export from this module
     VariablesToExport = '*'

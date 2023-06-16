@@ -4,7 +4,7 @@ namespace SullTec.Common.PowerShell
 {
     [Cmdlet(VerbsCommon.Get,"SemVer")]
     [OutputType(typeof(SemVer))]
-    public class GetSemVerCmdlet : PSCmdlet
+    public class GetSemVerCmdlet : Cmdlet
     {
         [Parameter(
             Mandatory = true,
