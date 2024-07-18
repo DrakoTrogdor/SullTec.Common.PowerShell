@@ -38,22 +38,25 @@ function Write-Color {
     .PARAMETER NoNewLine
         The string representations of the input objects are concatenated to form the output. No spaces or newlines are inserted between the output strings. No newline is added after the last output string.
     .EXAMPLE
-        PS> Verb-PublicFunctionName -Parameter1 'Value' -Parameter2 'Value'
-        [Description of the example.]
+        PS> Write-Color "Hey look ^crThis is red ^cgAnd this is green!"
+        Displays "Hey look " in default color, "This is red" in red, and "And this is green!" in green.
+    .EXAMPLE
+        PS> @('^fmMagenta text,^fB^bE Blue on Dark Gray ^fr Red','This is a^fM Test ^fzof ^fgGreen and ^fG^bYGreen on Dark Yellow') | Write-Color
+        Displays multiple lines with different foreground and background colors.
     .INPUTS
-        None
-            This functionality is forecoming.
+        None. You cannot pipe objects to Write-Color.
     .OUTPUTS
         None
             `Write-Color` sends the objects to the host. It does not return any objects. However, the host might display the objects that `Write-Host` sends to it.
     .NOTES
         Copyright Notice
         Name:       Write-Color
-        Author:     Casey J Sullivan
-        Version:    2.0.0
+        Author:     Casey J. Sullivan
+        Version:    1.0.0    -     Release
         Date:       2020-09-11
         Version History:
-            1.0.0    -    2017-01-21
+            1.0.0    -    2017-01-21    -    Initial Release
+        Attribution:
                 Original Author:  Brian Clark
                 Initially found at:  https://www.reddit.com/r/PowerShell/comments/5pdepn/writecolor_multiple_colors_on_a_single_line/
 
@@ -62,7 +65,7 @@ function Write-Color {
                 System.Object
                     You can pipe objects to be written to the host.
     .LINK
-        https://subdomain.domain.tld/directory/file.ext
+        https://sulltec.com
     .LINK
         about_Functions
     .LINK
@@ -91,18 +94,10 @@ function Write-Color {
         about_Function_provider
     .LINK
         Get-Verb
-
     .COMPONENT
-        The technology or feature that the function or script uses, or to which it is related. This content appears when the Get-Help command includes the Component parameter of Get-Help.
+        PowerShell Core
     .FUNCTIONALITY
-        [Verb-PublicFunctionName] The intended use of the function. This content appears when the Get-Help command includes the Functionality parameter of Get-Help.
-    #>
-    <#
-  .EXAMPLE
-    A normal usage example:
-        Write-Color "Hey look ^crThis is red ^cgAnd this is green!"
-    An example using a piped array:
-        @('^fmMagenta text,^fB^bE Blue on Dark Gray ^fr Red','This is a^fM Test ^fzof ^fgGreen and ^fG^bYGreen on Dark Yellow')|Write-Color
+        Custom color output in PowerShell host
 #>
  
     [CmdletBinding()]
@@ -150,32 +145,42 @@ function Write-Color {
 function Write-Log {
     <#
     .SYNOPSIS
-        [Brief description of the function or script.  Only used once in each topic.]
+        Writes a log message to a specified log file with optional log level.
     .DESCRIPTION
-        [Detailed description of the function or script.  Only used once in each topic.]
-    .PARAMETER [Parameter Name]
-        [Parameter Description]
-    .PARAMETER [Parameter Name]
-        [Parameter Descripton]
+        This function writes a log message to a specified log file. It supports different log levels such as Info, Warning, and Error. If the log file does not exist, it will be created. The function also supports appending to existing log files or preventing overwriting of existing files with the NoClobber parameter.
+    .PARAMETER Message
+        The log message to write.
+    .PARAMETER Path
+        The path of the log file. Defaults to 'C:\Logs\Update-RDSCertificate.log'.
+    .PARAMETER Level
+        The log level for the message. Valid values are 'Error', 'Warn', and 'Info'. Defaults to 'Info'.
+    .PARAMETER NoClobber
+        Prevents overwriting an existing log file. If the log file exists and NoClobber is specified, the function will not write to the file and will generate an error.
     .EXAMPLE
-        PS> Verb-PublicFunctionName -Parameter1 'Value' -Parameter2 'Value'
-        [Description of the example.]
+        PS> Write-Log -Message "This is an information message."
+        Writes an information message to the default log file.
+    .EXAMPLE
+        PS> Write-Log -Message "This is a warning message." -Level "Warn"
+        Writes a warning message to the default log file.
+    .EXAMPLE
+        PS> Write-Log -Message "This is an error message." -Level "Error" -Path "C:\Logs\CustomLog.log"
+        Writes an error message to the specified log file.
     .INPUTS
-        The Microsoft .NET Framework types of objects that can be piped to the function or script. You can also include a description of the input objects.
+        None. You cannot pipe objects to Write-Log.
     .OUTPUTS
-        The .NET Framework type of the objects that the cmdlet returns. You can also include a description of the returned objects.
+        None. Write-Log writes the log messages to a file but does not produce any output objects.
     .NOTES
         Copyright Notice
-        Name:       [Verb-PublicFunctionName]
-        Author:     [First Name] [Last Name]
-        Version:    [Major].[Minor]     -      [Alpha|Beta|Release Candidate|Release]
-        Date:       [Year]-[Month]-[Day]
+        Name:       Write-Log
+        Author:     Casey J. Sullivan
+        Version:    1.0.0    -     Release
+        Date:       2024-07-18
         Version History:
-            [Major].[Minor].[Patch]-[PreRelease]+[BuildMetaData]     -   [Year]-[Month]-[Day]  -   [Description]
+            1.0.0    -    2024-07-18    -    Initial Release
         TODO:
-            [List of TODOs]
+            None.
     .LINK
-        https://subdomain.domain.tld/directory/file.ext
+        https://sulltec.com
     .LINK
         about_Functions
     .LINK
@@ -204,11 +209,10 @@ function Write-Log {
         about_Function_provider
     .LINK
         Get-Verb
-
     .COMPONENT
-        The technology or feature that the function or script uses, or to which it is related. This content appears when the Get-Help command includes the Component parameter of Get-Help.
+        PowerShell Core
     .FUNCTIONALITY
-        [Verb-PublicFunctionName] The intended use of the function. This content appears when the Get-Help command includes the Functionality parameter of Get-Help.
+        Logging
     #>
     [CmdletBinding()]
     param (
@@ -267,32 +271,41 @@ function Write-Log {
 function Write-Console {
     <#
     .SYNOPSIS
-        [Brief description of the function or script.  Only used once in each topic.]
+        Writes a formatted message to the console with a title and optional alignment and indentation.
     .DESCRIPTION
-        [Detailed description of the function or script.  Only used once in each topic.]
-    .PARAMETER [Parameter Name]
-        [Parameter Description]
-    .PARAMETER [Parameter Name]
-        [Parameter Descripton]
+        This function writes a formatted message to the console, making it easier to upgrade from a terminal/console to an application. It allows specifying a title, alignment, and indentation for the message, and supports colored text output.
+    .PARAMETER Value
+        The message text to display in the console.
+    .PARAMETER Title
+        The title to display before the message. Defaults to 'Info'.
+    .PARAMETER Align
+        The number of characters to use for aligning the title and message. Defaults to 12.
+    .PARAMETER Indent
+        The number of tab characters to use for indenting the message. Defaults to 1.
+    .PARAMETER NoNewLine
+        If specified, the message will be written without a trailing newline character.
     .EXAMPLE
-        PS> Verb-PublicFunctionName -Parameter1 'Value' -Parameter2 'Value'
-        [Description of the example.]
+        PS> Write-Console -Value "This is a test message" -Title "Test"
+        Writes "Test: This is a test message" to the console with default alignment and indentation.
+    .EXAMPLE
+        PS> Write-Console -Value "Another message" -Title "Warning" -Align 15 -Indent 2
+        Writes "Warning: Another message" to the console with specified alignment and indentation.
     .INPUTS
-        The Microsoft .NET Framework types of objects that can be piped to the function or script. You can also include a description of the input objects.
+        None. You cannot pipe objects to Write-Console.
     .OUTPUTS
-        The .NET Framework type of the objects that the cmdlet returns. You can also include a description of the returned objects.
+        None. Write-Console writes the formatted message to the console but does not produce any output objects.
     .NOTES
         Copyright Notice
-        Name:       [Verb-PublicFunctionName]
-        Author:     [First Name] [Last Name]
-        Version:    [Major].[Minor]     -      [Alpha|Beta|Release Candidate|Release]
-        Date:       [Year]-[Month]-[Day]
+        Name:       Write-Console
+        Author:     Casey J. Sullivan
+        Version:    1.0.0    -     Release
+        Date:       2024-07-18
         Version History:
-            [Major].[Minor].[Patch]-[PreRelease]+[BuildMetaData]     -   [Year]-[Month]-[Day]  -   [Description]
+            1.0.0    -    2024-07-18    -    Initial Release
         TODO:
-            [List of TODOs]
+            None.
     .LINK
-        https://subdomain.domain.tld/directory/file.ext
+        https://sulltec.com
     .LINK
         about_Functions
     .LINK
@@ -321,11 +334,10 @@ function Write-Console {
         about_Function_provider
     .LINK
         Get-Verb
-
     .COMPONENT
-        The technology or feature that the function or script uses, or to which it is related. This content appears when the Get-Help command includes the Component parameter of Get-Help.
+        PowerShell Core
     .FUNCTIONALITY
-        [Verb-PublicFunctionName] The intended use of the function. This content appears when the Get-Help command includes the Functionality parameter of Get-Help.
+        Console output formatting
     #>
     # This function exists to make upgrading from terminal/console to an application easier.
     [CmdletBinding()]
@@ -346,32 +358,37 @@ function Write-Console {
 function Write-DebugInfo {
     <#
     .SYNOPSIS
-        [Brief description of the function or script.  Only used once in each topic.]
+        Writes debugging information to the console.
     .DESCRIPTION
-        [Detailed description of the function or script.  Only used once in each topic.]
-    .PARAMETER [Parameter Name]
-        [Parameter Description]
-    .PARAMETER [Parameter Name]
-        [Parameter Descripton]
+        This function writes debugging information to the console if the global variable $script:ShowDebugInfo is set to $true. It optionally includes headers and footers for better readability. The debugging information is written in dark gray.
+    .PARAMETER String
+        The strings containing the debugging information to display.
+    .PARAMETER NoHeader
+        If specified, the function will not display the header.
+    .PARAMETER NoFooter
+        If specified, the function will not display the footer.
     .EXAMPLE
-        PS> Verb-PublicFunctionName -Parameter1 'Value' -Parameter2 'Value'
-        [Description of the example.]
+        PS> Write-DebugInfo -String "This is a debug message"
+        Writes the message "This is a debug message" to the console with a header and footer.
+    .EXAMPLE
+        PS> Write-DebugInfo -String "Message1", "Message2" -NoHeader -NoFooter
+        Writes the messages "Message1" and "Message2" to the console without a header and footer.
     .INPUTS
-        The Microsoft .NET Framework types of objects that can be piped to the function or script. You can also include a description of the input objects.
+        None. You cannot pipe objects to Write-DebugInfo.
     .OUTPUTS
-        The .NET Framework type of the objects that the cmdlet returns. You can also include a description of the returned objects.
+        None. Write-DebugInfo writes the debugging information to the console but does not produce any output objects.
     .NOTES
         Copyright Notice
-        Name:       [Verb-PublicFunctionName]
-        Author:     [First Name] [Last Name]
-        Version:    [Major].[Minor]     -      [Alpha|Beta|Release Candidate|Release]
-        Date:       [Year]-[Month]-[Day]
+        Name:       Write-DebugInfo
+        Author:     Casey J. Sullivan
+        Version:    1.0.0    -     Release
+        Date:       2024-07-18
         Version History:
-            [Major].[Minor].[Patch]-[PreRelease]+[BuildMetaData]     -   [Year]-[Month]-[Day]  -   [Description]
+            1.0.0    -    2024-07-18    -    Initial Release
         TODO:
-            [List of TODOs]
+            None.
     .LINK
-        https://subdomain.domain.tld/directory/file.ext
+        https://sulltec.com
     .LINK
         about_Functions
     .LINK
@@ -400,11 +417,10 @@ function Write-DebugInfo {
         about_Function_provider
     .LINK
         Get-Verb
-
     .COMPONENT
-        The technology or feature that the function or script uses, or to which it is related. This content appears when the Get-Help command includes the Component parameter of Get-Help.
+        PowerShell Core
     .FUNCTIONALITY
-        [Verb-PublicFunctionName] The intended use of the function. This content appears when the Get-Help command includes the Functionality parameter of Get-Help.
+        Debugging
     #>
 	param (
 		[Parameter(Mandatory=$true, Position = 0)][string[]]$String,
@@ -427,32 +443,30 @@ function Write-DebugInfo {
 function PressAnyKey {
     <#
     .SYNOPSIS
-        [Brief description of the function or script.  Only used once in each topic.]
+        Waits for the user to press any key, excluding certain key combinations.
     .DESCRIPTION
-        [Detailed description of the function or script.  Only used once in each topic.]
-    .PARAMETER [Parameter Name]
-        [Parameter Description]
-    .PARAMETER [Parameter Name]
-        [Parameter Descripton]
+        The function displays a message prompting the user to press any key to continue. It excludes certain key combinations such as Shift, Control, Alt, and common clipboard operations to avoid accidental triggers.
+    .PARAMETER None
+        This function does not accept any parameters.
     .EXAMPLE
-        PS> Verb-PublicFunctionName -Parameter1 'Value' -Parameter2 'Value'
-        [Description of the example.]
+        PS> PressAnyKey
+        Displays "Press any key to continue ..." and waits for the user to press a valid key.
     .INPUTS
-        The Microsoft .NET Framework types of objects that can be piped to the function or script. You can also include a description of the input objects.
+        None. This function does not accept piped input.
     .OUTPUTS
-        The .NET Framework type of the objects that the cmdlet returns. You can also include a description of the returned objects.
+        None. This function does not produce any output objects.
     .NOTES
         Copyright Notice
-        Name:       [Verb-PublicFunctionName]
-        Author:     [First Name] [Last Name]
-        Version:    [Major].[Minor]     -      [Alpha|Beta|Release Candidate|Release]
-        Date:       [Year]-[Month]-[Day]
+        Name:       PressAnyKey
+        Author:     Casey J. Sullivan
+        Version:    1.0.0    -     Release
+        Date:       2024-07-18
         Version History:
-            [Major].[Minor].[Patch]-[PreRelease]+[BuildMetaData]     -   [Year]-[Month]-[Day]  -   [Description]
+            1.0.0    -    2024-07-18    -    Initial Release
         TODO:
-            [List of TODOs]
+            None.
     .LINK
-        https://subdomain.domain.tld/directory/file.ext
+        https://sulltec.com
     .LINK
         about_Functions
     .LINK
@@ -483,31 +497,51 @@ function PressAnyKey {
         Get-Verb
 
     .COMPONENT
-        The technology or feature that the function or script uses, or to which it is related. This content appears when the Get-Help command includes the Component parameter of Get-Help.
+        PowerShell Host Interaction
     .FUNCTIONALITY
-        [Verb-PublicFunctionName] The intended use of the function. This content appears when the Get-Help command includes the Functionality parameter of Get-Help.
+        Wait for key press with exclusions
     #>
     Write-Console "Press any key to continue ..." -Title "Action"
     [bool]$anyKey = $false
     do {
         [System.Management.Automation.Host.KeyInfo]$rawKey = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown,AllowCtrlC")
         switch ($rawKey.VirtualKeyCode) {
-            {$_ -in 16,17,18} { $anyKey = $false; break; } # Shift, Control, Alt
+            {$_ -in 16,17,18} { $anyKey = $false } # Shift, Control, Alt
             {$_ -in 45, 46} {
-                # Shift Insert (45)  or Delete (46) - Paste or Cut
-                if ($rawKey.ControlKeyState -eq [System.Management.Automation.Host.ControlKeyStates]::ShiftPressed) { $anyKey = $false}
-                # CTRL Insert (45) - Copy
-                elseif ($rawKey.ControlKeyState -eq [System.Management.Automation.Host.ControlKeyStates]::LeftCtrlPressed -or $rawKey.ControlKeyState -eq [System.Management.Automation.Host.ControlKeyStates]::RightCtrlPressed) { $anyKey = $false}
+                # Shift+Insert (45) == Paste, Shift+Delete (46) == Cut
+                if (
+                    $rawKey.ControlKeyState -band [System.Management.Automation.Host.ControlKeyStates]::ShiftPressed -and -not (
+                        $rawKey.ControlKeyState -band (
+                            [System.Management.Automation.Host.ControlKeyStates]::LeftCtrlPressed -bor 
+                            [System.Management.Automation.Host.ControlKeyStates]::RightCtrlPressed -bor 
+                            [System.Management.Automation.Host.ControlKeyStates]::LeftAltPressed -bor 
+                            [System.Management.Automation.Host.ControlKeyStates]::RightAltPressed
+                        )
+                    )
+                ) { $anyKey = $false}
+                # CTRL+Insert (45) == Copy
+                elseif (
+                    $rawKey.ControlKeyState -band ([System.Management.Automation.Host.ControlKeyStates]::LeftCtrlPressed -bor [System.Management.Automation.Host.ControlKeyStates]::RightCtrlPressed) -and -not (
+                         $rawKey.ControlKeyState -band (
+                            [System.Management.Automation.Host.ControlKeyStates]::ShiftPressed -bor 
+                            [System.Management.Automation.Host.ControlKeyStates]::LeftAltPressed -bor 
+                            [System.Management.Automation.Host.ControlKeyStates]::RightAltPressed
+                        )
+                    )
+                ) { $anyKey = $false}
                 else { $anyKey = $true}
-                break
             }
             {$_ -in 65,67,86,88} {
-                # CTRL A (65), C (67), V (86), or X(88) - Select all, Copy, Paste, or Cut
-                if ($rawKey.ControlKeyState -eq [System.Management.Automation.Host.ControlKeyStates]::LeftCtrlPressed -or $rawKey.ControlKeyState -eq [System.Management.Automation.Host.ControlKeyStates]::RightCtrlPressed) { $anyKey = $false}
-                # CTRL A (65), C (67), V (86), or X(88) - Select all, Copy, Paste, or Cut
-                elseif ($rawKey.ControlKeyState -eq [System.Management.Automation.Host.ControlKeyStates]::LeftAltPressed -or $rawKey.ControlKeyState -eq [System.Management.Automation.Host.ControlKeyStates]::RightAltPressed) { $anyKey = $false}
+                # CTRL+A (65) == Select All, CTRL+C (67) == Copy, CTRL+V (86) == Paste, CTRL+X(88) == Cut (with or without Shift)
+                if (
+                    $rawKey.ControlKeyState -band  ([System.Management.Automation.Host.ControlKeyStates]::LeftCtrlPressed -bor [System.Management.Automation.Host.ControlKeyStates]::RightCtrlPressed) -and -not (
+                        $rawKey.ControlKeyState -band (
+                            [System.Management.Automation.Host.ControlKeyStates]::LeftAltPressed -bor 
+                            [System.Management.Automation.Host.ControlKeyStates]::RightAltPressed
+                        )
+                    )
+                ) { $anyKey = $false}
                 else { $anyKey = $true}
-                break
             }
             default { $anyKey = $true }
         }
@@ -516,32 +550,30 @@ function PressAnyKey {
 function YesOrNo {
     <#
     .SYNOPSIS
-        [Brief description of the function or script.  Only used once in each topic.]
+        Prompts the user for a yes or no response.
     .DESCRIPTION
-        [Detailed description of the function or script.  Only used once in each topic.]
-    .PARAMETER [Parameter Name]
-        [Parameter Description]
-    .PARAMETER [Parameter Name]
-        [Parameter Descripton]
+        This function displays a prompt asking the user for a yes or no response. The prompt can be customized, and the function will keep asking until a valid response (y or n) is provided.
+    .PARAMETER Prompt
+        The message to display to the user. Defaults to "Is the above information correct? [y|n]".
     .EXAMPLE
-        PS> Verb-PublicFunctionName -Parameter1 'Value' -Parameter2 'Value'
-        [Description of the example.]
+        PS> YesOrNo -Prompt "Do you want to continue? [y|n]"
+        Prompts the user with "Do you want to continue? [y|n]" and waits for a valid response.
     .INPUTS
-        The Microsoft .NET Framework types of objects that can be piped to the function or script. You can also include a description of the input objects.
+        None. This function does not accept piped input.
     .OUTPUTS
-        The .NET Framework type of the objects that the cmdlet returns. You can also include a description of the returned objects.
+        System.Boolean. Returns $true if the user responds with 'y', and $false if the user responds with 'n'.
     .NOTES
         Copyright Notice
-        Name:       [Verb-PublicFunctionName]
-        Author:     [First Name] [Last Name]
-        Version:    [Major].[Minor]     -      [Alpha|Beta|Release Candidate|Release]
-        Date:       [Year]-[Month]-[Day]
+        Name:       YesOrNo
+        Author:     Casey J. Sullivan
+        Version:    1.0.0    -     Release
+        Date:       2024-07-18
         Version History:
-            [Major].[Minor].[Patch]-[PreRelease]+[BuildMetaData]     -   [Year]-[Month]-[Day]  -   [Description]
+            1.0.0    -    2024-07-18    -    Initial Release
         TODO:
-            [List of TODOs]
+            None.
     .LINK
-        https://subdomain.domain.tld/directory/file.ext
+        https://sulltec.com
     .LINK
         about_Functions
     .LINK
@@ -570,11 +602,10 @@ function YesOrNo {
         about_Function_provider
     .LINK
         Get-Verb
-
     .COMPONENT
-        The technology or feature that the function or script uses, or to which it is related. This content appears when the Get-Help command includes the Component parameter of Get-Help.
+        PowerShell Core
     .FUNCTIONALITY
-        [Verb-PublicFunctionName] The intended use of the function. This content appears when the Get-Help command includes the Functionality parameter of Get-Help.
+        Prompting user for confirmation
     #>
 	param (
 		[Parameter(Mandatory=$false)][string]$Prompt = "Is the above information correct? [y|n]"
@@ -589,32 +620,51 @@ function YesOrNo {
 function Show-Choices {
     <#
     .SYNOPSIS
-        [Brief description of the function or script.  Only used once in each topic.]
+        Displays a list of choices and prompts the user to select one.
     .DESCRIPTION
-        [Detailed description of the function or script.  Only used once in each topic.]
-    .PARAMETER [Parameter Name]
-        [Parameter Description]
-    .PARAMETER [Parameter Name]
-        [Parameter Descripton]
+        This function displays a list of choices to the user and prompts for a selection. The list can be sorted or unsorted and supports various types of objects. The function can also show options to go back or exit. It is useful for creating interactive menus in PowerShell scripts.
+    .PARAMETER Title
+        The title to display above the list of choices. Defaults to 'Select one of the following:'.
+    .PARAMETER Prompt
+        The prompt message to display to the user. Defaults to an empty string, which results in a default prompt being generated.
+    .PARAMETER List
+        The list of choices to display. This parameter is mandatory.
+    .PARAMETER ObjectKey
+        The property of the objects in the list to display as the choice text. Defaults to 'Name'.
+    .PARAMETER ClearScreen
+        If specified, the screen will be cleared before displaying the choices.
+    .PARAMETER ShowBack
+        If specified, an option to go back will be displayed.
+    .PARAMETER ShowExit
+        If specified, an option to exit will be displayed. Defaults to true.
+    .PARAMETER ExitPath
+        The path to a script or command to execute when the exit option is selected.
+    .PARAMETER ExitScript
+        A script block to execute when the exit option is selected.
+    .PARAMETER NoSort
+        If specified, the list of choices will not be sorted.
     .EXAMPLE
-        PS> Verb-PublicFunctionName -Parameter1 'Value' -Parameter2 'Value'
-        [Description of the example.]
+        PS> Show-Choices -List @("Option 1", "Option 2", "Option 3")
+        Displays a menu with three options and prompts the user to select one.
+    .EXAMPLE
+        PS> Show-Choices -Title "Choose an option:" -List @("Option A", "Option B", "Option C") -ShowBack -ShowExit
+        Displays a menu with three options, a back option, and an exit option.
     .INPUTS
-        The Microsoft .NET Framework types of objects that can be piped to the function or script. You can also include a description of the input objects.
+        None. You cannot pipe objects to Show-Choices.
     .OUTPUTS
-        The .NET Framework type of the objects that the cmdlet returns. You can also include a description of the returned objects.
+        System.Object. Returns the selected object from the list.
     .NOTES
         Copyright Notice
-        Name:       [Verb-PublicFunctionName]
-        Author:     [First Name] [Last Name]
-        Version:    [Major].[Minor]     -      [Alpha|Beta|Release Candidate|Release]
-        Date:       [Year]-[Month]-[Day]
+        Name:       Show-Choices
+        Author:     Casey J. Sullivan
+        Version:    1.0.0    -     Release
+        Date:       2024-07-18
         Version History:
-            [Major].[Minor].[Patch]-[PreRelease]+[BuildMetaData]     -   [Year]-[Month]-[Day]  -   [Description]
+            1.0.0    -    2024-07-18    -    Initial Release
         TODO:
-            [List of TODOs]
+            None.
     .LINK
-        https://subdomain.domain.tld/directory/file.ext
+        https://sulltec.com
     .LINK
         about_Functions
     .LINK
@@ -643,11 +693,10 @@ function Show-Choices {
         about_Function_provider
     .LINK
         Get-Verb
-
     .COMPONENT
-        The technology or feature that the function or script uses, or to which it is related. This content appears when the Get-Help command includes the Component parameter of Get-Help.
+        PowerShell Core
     .FUNCTIONALITY
-        [Verb-PublicFunctionName] The intended use of the function. This content appears when the Get-Help command includes the Functionality parameter of Get-Help.
+        Interactive menu selection
     #>
 	param (
 		[Parameter(Mandatory=$false)][string]$Title = 'Select one of the following:',
@@ -811,32 +860,42 @@ function Show-Choices {
 function Show-Menu {
     <#
     .SYNOPSIS
-        [Brief description of the function or script.  Only used once in each topic.]
+        Displays a menu of choices to the user and executes the selected choice.
     .DESCRIPTION
-        [Detailed description of the function or script.  Only used once in each topic.]
-    .PARAMETER [Parameter Name]
-        [Parameter Description]
-    .PARAMETER [Parameter Name]
-        [Parameter Descripton]
+        This function displays a menu based on a hashtable of choices and prompts the user to select an item. If the selected item is a nested hashtable, it will recursively display the submenu. The function also supports options to show a back button and to pause after executing a choice.
+    .PARAMETER HashTable
+        The hashtable containing the menu items. The keys are the menu options, and the values are the actions to execute or nested hashtables for submenus.
+    .PARAMETER ShowBack
+        If specified, a back option will be displayed in the menu to return to the previous menu level. Defaults to false.
+    .PARAMETER ShowPause
+        If specified, the function will pause and wait for a key press after executing a menu choice. Defaults to true.
     .EXAMPLE
-        PS> Verb-PublicFunctionName -Parameter1 'Value' -Parameter2 'Value'
-        [Description of the example.]
+        PS> $menu = @{
+                'Option 1' = { Write-Output 'You selected option 1' }
+                'Option 2' = @{
+                    'Suboption 1' = { Write-Output 'You selected suboption 1' }
+                    'Suboption 2' = { Write-Output 'You selected suboption 2' }
+                }
+                'Exit' = { $null }
+            }
+        PS> Show-Menu -HashTable $menu
+        Displays the menu and executes the selected options.
     .INPUTS
-        The Microsoft .NET Framework types of objects that can be piped to the function or script. You can also include a description of the input objects.
+        None. You cannot pipe objects to Show-Menu.
     .OUTPUTS
-        The .NET Framework type of the objects that the cmdlet returns. You can also include a description of the returned objects.
+        None. Show-Menu does not return any objects.
     .NOTES
         Copyright Notice
-        Name:       [Verb-PublicFunctionName]
-        Author:     [First Name] [Last Name]
-        Version:    [Major].[Minor]     -      [Alpha|Beta|Release Candidate|Release]
-        Date:       [Year]-[Month]-[Day]
+        Name:       Show-Menu
+        Author:     Casey J. Sullivan
+        Version:    1.0.0    -     Release
+        Date:       2024-07-18
         Version History:
-            [Major].[Minor].[Patch]-[PreRelease]+[BuildMetaData]     -   [Year]-[Month]-[Day]  -   [Description]
+            1.0.0    -    2024-07-18    -    Initial Release
         TODO:
-            [List of TODOs]
+            None.
     .LINK
-        https://subdomain.domain.tld/directory/file.ext
+        https://sulltec.com
     .LINK
         about_Functions
     .LINK
@@ -865,11 +924,10 @@ function Show-Menu {
         about_Function_provider
     .LINK
         Get-Verb
-
     .COMPONENT
-        The technology or feature that the function or script uses, or to which it is related. This content appears when the Get-Help command includes the Component parameter of Get-Help.
+        PowerShell Core
     .FUNCTIONALITY
-        [Verb-PublicFunctionName] The intended use of the function. This content appears when the Get-Help command includes the Functionality parameter of Get-Help.
+        Interactive menu
     #>
 	param (
 		[Parameter(Mandatory=$true)][System.Collections.Hashtable]$HashTable,
@@ -894,32 +952,35 @@ function Show-Menu {
 function Invoke-CommandLine ($command, $workingDirectory, $timeout) {
     <#
     .SYNOPSIS
-        [Brief description of the function or script.  Only used once in each topic.]
+        Executes a command line instruction and captures the output and error messages.
     .DESCRIPTION
-        [Detailed description of the function or script.  Only used once in each topic.]
-    .PARAMETER [Parameter Name]
-        [Parameter Description]
-    .PARAMETER [Parameter Name]
-        [Parameter Descripton]
+        This function executes a specified command line instruction within an optional working directory and with an optional timeout period. It captures both the standard output and standard error of the command and returns these along with the exit code.
+    .PARAMETER command
+        The command line instruction to execute.
+    .PARAMETER workingDirectory
+        The directory in which to execute the command. Defaults to the current directory if not specified.
+    .PARAMETER timeout
+        The maximum time, in seconds, to wait for the command to complete. Defaults to 5 seconds if not specified.
     .EXAMPLE
-        PS> Verb-PublicFunctionName -Parameter1 'Value' -Parameter2 'Value'
-        [Description of the example.]
+        PS> Invoke-CommandLine -command "ipconfig" -workingDirectory "C:\Windows" -timeout 10
+        Executes the "ipconfig" command in the "C:\Windows" directory with a 10-second timeout.
     .INPUTS
-        The Microsoft .NET Framework types of objects that can be piped to the function or script. You can also include a description of the input objects.
+        None. You cannot pipe objects to Invoke-CommandLine.
     .OUTPUTS
-        The .NET Framework type of the objects that the cmdlet returns. You can also include a description of the returned objects.
+        System.Management.Automation.PSCustomObject
+        Returns an object with the properties: StandardOutput, StandardError, and ExitCode.
     .NOTES
         Copyright Notice
-        Name:       [Verb-PublicFunctionName]
-        Author:     [First Name] [Last Name]
-        Version:    [Major].[Minor]     -      [Alpha|Beta|Release Candidate|Release]
-        Date:       [Year]-[Month]-[Day]
+        Name:       Invoke-CommandLine
+        Author:     Casey J. Sullivan
+        Version:    1.0.0    -     Release
+        Date:       2024-07-18
         Version History:
-            [Major].[Minor].[Patch]-[PreRelease]+[BuildMetaData]     -   [Year]-[Month]-[Day]  -   [Description]
+            1.0.0    -    2024-07-18    -    Initial Release
         TODO:
-            [List of TODOs]
+            None.
     .LINK
-        https://subdomain.domain.tld/directory/file.ext
+        https://sulltec.com
     .LINK
         about_Functions
     .LINK
@@ -948,11 +1009,10 @@ function Invoke-CommandLine ($command, $workingDirectory, $timeout) {
         about_Function_provider
     .LINK
         Get-Verb
-
     .COMPONENT
-        The technology or feature that the function or script uses, or to which it is related. This content appears when the Get-Help command includes the Component parameter of Get-Help.
+        PowerShell Core
     .FUNCTIONALITY
-        [Verb-PublicFunctionName] The intended use of the function. This content appears when the Get-Help command includes the Functionality parameter of Get-Help.
+        Command line execution
     #>
     $pinfo = New-Object System.Diagnostics.ProcessStartInfo
     $pinfo.FileName = $env:ComSpec
@@ -977,6 +1037,78 @@ function Invoke-CommandLine ($command, $workingDirectory, $timeout) {
     }
 }
 Function Write-DataToFile {
+    <#
+    .SYNOPSIS
+        Writes data to a specified file in either text or CSV format.
+    .DESCRIPTION
+        This function writes the provided data to a file at the specified location with the specified name and format. It supports text and CSV file types and includes logic to handle existing files by prompting the user for overwrite confirmation.
+    .PARAMETER FilePath
+        The directory path where the file will be created. Defaults to the script's root directory.
+    .PARAMETER FileName
+        The name of the file to be created, without the extension. This parameter is mandatory.
+    .PARAMETER FileType
+        The type of the file to be created. Valid values are 'txt' and 'csv'. Defaults to 'txt'.
+    .PARAMETER FileData
+        The data to be written to the file. This parameter is mandatory.
+    .EXAMPLE
+        PS> Write-DataToFile -FileName "example" -FileData "This is a sample text."
+        Creates a text file named "example.txt" in the script's root directory with the provided data.
+    .EXAMPLE
+        PS> $data = @(
+                @{ Name = "John"; Age = 30 }
+                @{ Name = "Jane"; Age = 25 }
+            )
+        PS> Write-DataToFile -FilePath "C:\Data" -FileName "people" -FileType "csv" -FileData $data
+        Creates a CSV file named "people.csv" in the "C:\Data" directory with the provided data.
+    .INPUTS
+        None. You cannot pipe objects to Write-DataToFile.
+    .OUTPUTS
+        None. Write-DataToFile writes data to a file but does not produce any output objects.
+    .NOTES
+        Copyright Notice
+        Name:       Write-DataToFile
+        Author:     Casey J. Sullivan
+        Version:    1.0.0    -     Release
+        Date:       2024-07-18
+        Version History:
+            1.0.0    -    2024-07-18    -    Initial Release
+        TODO:
+            None.
+    .LINK
+        https://sulltec.com
+    .LINK
+        about_Functions
+    .LINK
+        about_Functions_Advanced
+    .LINK
+        about_Functions_Advanced_Methods
+    .LINK
+        about_Functions_Advanced_Parameters
+    .LINK
+        about_Functions_CmdletBinding_Attribute
+    .LINK
+        about_Functions_OutputTypeAttribute
+    .LINK
+        about_Automatic_Variables
+    .LINK
+        about_Comment_Based_Help
+    .LINK
+        about_Parameters
+    .LINK
+        about_Profiles
+    .LINK
+        about_Scopes
+    .LINK
+        about_Script_Blocks
+    .LINK
+        about_Function_provider
+    .LINK
+        Get-Verb
+    .COMPONENT
+        PowerShell Core
+    .FUNCTIONALITY
+        File writing
+    #>
 	Param (
 		[Parameter(Mandatory=$false)][string]$FilePath = $PSScriptRoot,
 		[Parameter(Mandatory=$true)][string]$FileName,
@@ -1034,14 +1166,14 @@ function Get-ClickableLink {
         Copyright Notice
         Name:       Get-ClickableLink
         Author:     Casey J. Sullivan
-        Version:    1.0.0     -      Release
+        Version:    1.0.0    -     Release
         Date:       2022-12-02
         Version History:
-            1.0.0     -   2022-12-02  -   Initial Release
+            1.0.0    -    2022-12-02    -    Initial Release
         Attribution:
             Thank you Dani Llewllyn for the code. https://diddledani.com/powershell-clickable-hyperlinks/
         TODO:
-            [List of TODOs]
+            None.
     .LINK
         https://sulltec.com
     .LINK

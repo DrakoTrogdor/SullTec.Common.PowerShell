@@ -1,32 +1,33 @@
 function ConvertFrom-UnixTime($Value){
     <#
     .SYNOPSIS
-        [Brief description of the function or script.  Only used once in each topic.]
+        Converts a Unix timestamp to a local DateTime object.
     .DESCRIPTION
-        [Detailed description of the function or script.  Only used once in each topic.]
-    .PARAMETER [Parameter Name]
-        [Parameter Description]
-    .PARAMETER [Parameter Name]
-        [Parameter Descripton]
+        This function takes a Unix timestamp (the number of seconds since January 1, 1970) and converts it to a local DateTime object. The conversion accounts for the local time zone.
+    .PARAMETER Value
+        The Unix timestamp to convert. This should be the number of seconds since January 1, 1970.
     .EXAMPLE
-        PS> Verb-PublicFunctionName -Parameter1 'Value' -Parameter2 'Value'
-        [Description of the example.]
+        PS> ConvertFrom-UnixTime -Value 1625097600
+        Wednesday, June 30, 2021 8:00:00 PM
+        Converts the Unix timestamp 1625097600 to the local DateTime equivalent.
     .INPUTS
-        The Microsoft .NET Framework types of objects that can be piped to the function or script. You can also include a description of the input objects.
+        System.Int32
+            You can pipe an integer representing a Unix timestamp to this function.
     .OUTPUTS
-        The .NET Framework type of the objects that the cmdlet returns. You can also include a description of the returned objects.
+        System.DateTime
+            The function returns a DateTime object representing the local time equivalent of the Unix timestamp.
     .NOTES
         Copyright Notice
-        Name:       [Verb-PublicFunctionName]
-        Author:     [First Name] [Last Name]
-        Version:    [Major].[Minor]     -      [Alpha|Beta|Release Candidate|Release]
-        Date:       [Year]-[Month]-[Day]
+        Name:       ConvertFrom-UnixTime
+        Author:     Casey J. Sullivan
+        Version:    1.0.0    -    Release
+        Date:       2024-07-18
         Version History:
-            [Major].[Minor].[Patch]-[PreRelease]+[BuildMetaData]     -   [Year]-[Month]-[Day]  -   [Description]
+            1.0.0    -    2024-07-18    -    Initial release.
         TODO:
-            [List of TODOs]
+            None.
     .LINK
-        https://subdomain.domain.tld/directory/file.ext
+        https://www.sulltec.com
     .LINK
         about_Functions
     .LINK
@@ -55,43 +56,49 @@ function ConvertFrom-UnixTime($Value){
         about_Function_provider
     .LINK
         Get-Verb
-
     .COMPONENT
-        The technology or feature that the function or script uses, or to which it is related. This content appears when the Get-Help command includes the Component parameter of Get-Help.
+        PowerShell Core
     .FUNCTIONALITY
-        [Verb-PublicFunctionName] The intended use of the function. This content appears when the Get-Help command includes the Functionality parameter of Get-Help.
+        Converts Unix timestamp to local DateTime
     #>
     return [TimeZoneInfo]::ConvertTimeFromUTC(([DateTime]::UnixEpoch).AddSeconds($Value),(Get-TimeZone))
 }
 function Format-DateDiff([DateTime]$Date1,[DateTime]$Date2) {
     <#
     .SYNOPSIS
-        [Brief description of the function or script.  Only used once in each topic.]
+        Calculates the difference between two dates and formats it as a human-readable string.
     .DESCRIPTION
-        [Detailed description of the function or script.  Only used once in each topic.]
-    .PARAMETER [Parameter Name]
-        [Parameter Description]
-    .PARAMETER [Parameter Name]
-        [Parameter Descripton]
+        This function calculates the difference between two DateTime objects and returns the difference as a formatted string. The output will show the most significant unit of time (days, hours, minutes, or seconds) based on the difference.
+    .PARAMETER Date1
+        The first DateTime object.
+    .PARAMETER Date2
+        The second DateTime object.
     .EXAMPLE
-        PS> Verb-PublicFunctionName -Parameter1 'Value' -Parameter2 'Value'
-        [Description of the example.]
+        PS> Format-DateDiff -Date1 (Get-Date) -Date2 (Get-Date).AddDays(-1)
+        1d
+        Calculates the difference between the current date and the previous day, returning "1d".
+    .EXAMPLE
+        PS> Format-DateDiff -Date1 (Get-Date) -Date2 (Get-Date).AddHours(-5)
+        5h
+        Calculates the difference between the current time and five hours ago, returning "5h".
     .INPUTS
-        The Microsoft .NET Framework types of objects that can be piped to the function or script. You can also include a description of the input objects.
+        System.DateTime
+            You can pipe DateTime objects to the Date1 and Date2 parameters.
     .OUTPUTS
-        The .NET Framework type of the objects that the cmdlet returns. You can also include a description of the returned objects.
+        System.String
+            Returns a string representing the formatted date difference.
     .NOTES
         Copyright Notice
-        Name:       [Verb-PublicFunctionName]
-        Author:     [First Name] [Last Name]
-        Version:    [Major].[Minor]     -      [Alpha|Beta|Release Candidate|Release]
-        Date:       [Year]-[Month]-[Day]
+        Name:       Format-DateDiff
+        Author:     Casey J. Sullivan
+        Version:    1.0.0    -    Release
+        Date:       2024-07-18
         Version History:
-            [Major].[Minor].[Patch]-[PreRelease]+[BuildMetaData]     -   [Year]-[Month]-[Day]  -   [Description]
+            1.0.0    -    2024-07-18    -    Initial release.
         TODO:
-            [List of TODOs]
+            None.
     .LINK
-        https://subdomain.domain.tld/directory/file.ext
+        https://www.sulltec.com
     .LINK
         about_Functions
     .LINK
@@ -120,11 +127,10 @@ function Format-DateDiff([DateTime]$Date1,[DateTime]$Date2) {
         about_Function_provider
     .LINK
         Get-Verb
-
     .COMPONENT
-        The technology or feature that the function or script uses, or to which it is related. This content appears when the Get-Help command includes the Component parameter of Get-Help.
+        PowerShell Core
     .FUNCTIONALITY
-        [Verb-PublicFunctionName] The intended use of the function. This content appears when the Get-Help command includes the Functionality parameter of Get-Help.
+        Date difference formatting
     #>
         $timespan = $Date1 - $Date2
     [int]$days = [Math]::Floor([Math]::Abs($timespan.TotalDays))
@@ -142,32 +148,33 @@ function Format-DateDiff([DateTime]$Date1,[DateTime]$Date2) {
 function ExitScript {
     <#
     .SYNOPSIS
-        [Brief description of the function or script.  Only used once in each topic.]
+        Exits the current PowerShell script with optional cleanup and directory change.
     .DESCRIPTION
-        [Detailed description of the function or script.  Only used once in each topic.]
-    .PARAMETER [Parameter Name]
-        [Parameter Description]
-    .PARAMETER [Parameter Name]
-        [Parameter Descripton]
+        This function exits the current PowerShell script after performing optional cleanup actions such as clearing the console and history. It can also change the working directory to a specified path before exiting.
+    .PARAMETER Path
+        The directory path to change to before exiting the script. If not specified, the current directory remains unchanged.
     .EXAMPLE
-        PS> Verb-PublicFunctionName -Parameter1 'Value' -Parameter2 'Value'
-        [Description of the example.]
+        PS> ExitScript
+        Exits the script and performs cleanup.
+    .EXAMPLE
+        PS> ExitScript -Path "C:\"
+        Changes the working directory to "C:\" and exits the script.
     .INPUTS
-        The Microsoft .NET Framework types of objects that can be piped to the function or script. You can also include a description of the input objects.
+        None. You cannot pipe objects to ExitScript.
     .OUTPUTS
-        The .NET Framework type of the objects that the cmdlet returns. You can also include a description of the returned objects.
+        None. ExitScript does not return any objects.
     .NOTES
         Copyright Notice
-        Name:       [Verb-PublicFunctionName]
-        Author:     [First Name] [Last Name]
-        Version:    [Major].[Minor]     -      [Alpha|Beta|Release Candidate|Release]
-        Date:       [Year]-[Month]-[Day]
+        Name:       ExitScript
+        Author:     Casey J. Sullivan
+        Version:    1.0.0    -    Release
+        Date:       2024-07-18
         Version History:
-            [Major].[Minor].[Patch]-[PreRelease]+[BuildMetaData]     -   [Year]-[Month]-[Day]  -   [Description]
+            1.0.0    -    2024-07-18    -    Initial release.
         TODO:
-            [List of TODOs]
+            None.
     .LINK
-        https://subdomain.domain.tld/directory/file.ext
+        https://www.sulltec.com
     .LINK
         about_Functions
     .LINK
@@ -196,11 +203,10 @@ function ExitScript {
         about_Function_provider
     .LINK
         Get-Verb
-
     .COMPONENT
-        The technology or feature that the function or script uses, or to which it is related. This content appears when the Get-Help command includes the Component parameter of Get-Help.
+        PowerShell Core
     .FUNCTIONALITY
-        [Verb-PublicFunctionName] The intended use of the function. This content appears when the Get-Help command includes the Functionality parameter of Get-Help.
+        Script exit with cleanup
     #>
     [CmdletBinding()]
     param (
