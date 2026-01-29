@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Classes", "Classes", "{0568A6AF-900E-4D01-A3DA-B23842BDFF09}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SullTec.Common.PowerShell.SemVer", "Classes\SemVer\SullTec.Common.PowerShell.SemVer.csproj", "{7F49B130-5D6C-4B1E-8DDE-9A98B0C3A18C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestSemVer", "Classes\TestSemVer\TestSemVer.csproj", "{344EB064-62EA-4360-A73A-86A7CE221ED5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F49B130-5D6C-4B1E-8DDE-9A98B0C3A18C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F49B130-5D6C-4B1E-8DDE-9A98B0C3A18C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F49B130-5D6C-4B1E-8DDE-9A98B0C3A18C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F49B130-5D6C-4B1E-8DDE-9A98B0C3A18C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{344EB064-62EA-4360-A73A-86A7CE221ED5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{344EB064-62EA-4360-A73A-86A7CE221ED5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{344EB064-62EA-4360-A73A-86A7CE221ED5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{344EB064-62EA-4360-A73A-86A7CE221ED5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7F49B130-5D6C-4B1E-8DDE-9A98B0C3A18C} = {0568A6AF-900E-4D01-A3DA-B23842BDFF09}
+		{344EB064-62EA-4360-A73A-86A7CE221ED5} = {0568A6AF-900E-4D01-A3DA-B23842BDFF09}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {00543169-ED16-4B3D-83EE-3CA73E802804}
+	EndGlobalSection
+EndGlobal
